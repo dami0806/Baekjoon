@@ -1,9 +1,6 @@
+import java.util.Arrays;
 class Solution {
-    public double solution(int[] arr) {
-        double avg  = 0;
-       for(int i=0;i<arr.length;i++){
-           avg+=(long)arr[i];
-       }
-        return avg/(arr.length);
+    public double solution(int[] arr) {       
+        return Arrays.stream(arr).average().getAsDouble();
     }
 }
