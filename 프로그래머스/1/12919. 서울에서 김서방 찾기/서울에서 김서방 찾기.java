@@ -1,7 +1,11 @@
-import java.util.Arrays;
 class Solution {
     public String solution(String[] seoul) {
-        int idx = Arrays.asList(seoul).indexOf("Kim");
-        return "김서방은 " + idx +"에 있다";
+        String answer = "김서방";
+        int idx = 0;
+        for(int i=0; i<seoul.length;i++){
+            
+        if (seoul[i].equals("Kim")) {idx = i;break;}
+            }
+        return "김서방은 " +String.valueOf(idx)+"에 있다";
     }
 }
