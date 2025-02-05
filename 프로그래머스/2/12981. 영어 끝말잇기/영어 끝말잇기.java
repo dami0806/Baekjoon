@@ -10,8 +10,7 @@ class Solution {
                     )) || (isSame(words, i+1)) ) {
                     answer[0] = ((i+1)%n)+1;
                     answer[1] = ((i+1)/n)+1;
-                    // System.out.println(i);
-                    // System.out.println(words[i+1]);
+                    
                     break;
                 }
         }
