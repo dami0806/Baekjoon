@@ -1,46 +1,63 @@
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 
+/**
+ * 7
+ * 6
+ * 1 2
+ * 2 3
+ * 1 5
+ * 5 2
+ * 5 6
+ * 4 7
+ */
 public class Main {
-    static ArrayList<Integer>[] graph;
-    static boolean[] visited;
+    // 노드 7개 간선 6개
+    static ArrayList<Integer>[] A; //1에 [] 2에 []..7까지
+    static boolean visited[]; // 7개
     static int count = 0;
 
     public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
-        int n = Integer.parseInt(reader.readLine());
-        int m = Integer.parseInt(reader.readLine());
-        graph = new ArrayList[n+1];
-        visited = new boolean[n+1];
-        for (int i = 0; i < n+1; i++) {
-            graph[i] = new ArrayList<Integer>();
-        }
-        for (int i = 0; i < m; i++) {
-            StringTokenizer st = new StringTokenizer(reader.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            graph[a].add(b);
-            graph[b].add(a);
-        }
-        dfs(1);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(new StringTokenizer(br.readLine()).nextToken());
+        A = new ArrayList[n + 1];
+        visited = new boolean[n + 1];
 
-        writer.write(String.valueOf(count-1));
-        writer.flush();
-        writer.close();
-        reader.close();
+        // 인접 노드들 추가
+        for (int i = 1; i <= n; i++) {
+            A[i] = new ArrayList<Integer>();
+        }
+        for (int j = 1; j <= m; j++) {
+             st = new StringTokenizer(br.readLine());
+
+            int v1 = Integer.parseInt(st.nextToken());
+            int v2 = Integer.parseInt(st.nextToken());
+
+            A[v1].add(v2);
+            A[v2].add(v1);
+        }
+
+        // 탐색
+        DFS(1);
+
+        System.out.println(count);
     }
 
-    public static void dfs(int node) {
-        if (visited[node]) {
+    private static void DFS(int v) {
+        if (visited[v]) {
             return;
         }
-        count++;
-        visited[node] = true;
-        for (int i : graph[node]) {
-            dfs(i);
+
+        visited[v] = true;
+        for (int i : A[v]) {
+            if (!visited[i]) {
+                count++;
+                DFS(i);
+            }
         }
     }
 }
