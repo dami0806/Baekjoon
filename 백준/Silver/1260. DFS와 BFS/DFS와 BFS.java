@@ -51,7 +51,6 @@ public class Main {
         System.out.println(sb.toString().trim());
 
         visited = new boolean[N + 1];
-
         sb = new StringBuilder();
         BFS(V);
         System.out.println(sb.toString().trim());
@@ -74,18 +73,18 @@ public class Main {
 
     private static void BFS(int v) {
         // 큐
-        Queue<int []> queue = new LinkedList<>();
+        Queue<Integer> queue = new LinkedList<>();
         visited[v] = true;
-        queue.offer(new int []{v, 1});
+        queue.offer(v);
 
         while (!queue.isEmpty()) {
-            int []now = queue.poll();
-            sb.append(now[0]).append(" ");
+            int now = queue.poll();
+            sb.append(now).append(" ");
 
-            for(int i: A[now[0]]) {
+            for(int i: A[now]) {
                 if(!visited[i]) {
                     visited[i] = true;
-                    queue.offer(new int []{i, now[1] + 1});
+                    queue.offer(i);
                 }
             }
         }
