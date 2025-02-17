@@ -7,116 +7,110 @@ import java.util.StringTokenizer;
 /**
  * 9 8
  * CCTGGATTG
- * 2 0 1 1    0
+ * 2 0 1 1
  * <p>
- * <p>
- * 4 2
- * GATA
- * 1 0 0 1
- * A C G T
- * {‘A’, ‘C’, ‘G’, ‘T’}
+ * {‘A’, ‘C’, ‘G’, ‘T’} A: 0, C: 1, G:2, T:3
  */
 public class Main {
-    static int count[] = new int[4];
+    static int N, M;
+    static int A[]; // 2 0 1 1
     static int checkSecret = 0;
-    static int Result = 0;
-    static int checkArr[]; //만족하는 개수: 1개 2개...총
+    static int answer = 0;
+
+    static int count[] = new int[4];
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());    // 9 8
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        //몇개가 만족하냐?
-        checkArr = new int[4];
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
-        char[] A = br.readLine().toCharArray();    // CCTGGATTG
+        char[] chars = br.readLine().toCharArray();
+        int start = 0;
+        int end = M - 1;
+        A = new int[4];
 
-        st = new StringTokenizer(br.readLine());    // 2 0 1 1
-        //count
+        st = new StringTokenizer(br.readLine());
+
         for (int i = 0; i < 4; i++) {
-            checkArr[i] = Integer.parseInt(st.nextToken());
-            if (checkArr[i] == 0) {
+            A[i] = Integer.parseInt(st.nextToken()); // 2 0 1 1
+            
+            if (A[i] == 0) {
                 checkSecret++;
             }
         }
 
-
+        //초기에 값 확인 0부터 부분개수 까지의 값
         for (int i = 0; i < M; i++) {
-            add(A[i]);
+            add(chars[i]);
         }
 
+        if (checkSecret == 4) answer++;
 
-        if (checkSecret == 4) {
-            Result++;
-        }
 
         for (int i = M; i < N; i++) {
-            add(A[i]);
-            remove(A[i - M]);
-            if (checkSecret == 4) {
-                Result++;
-            }
+            int j = i - M;
+            // 를 하는데
+            add(chars[i]);
+            remove(chars[j]);
+//            System.out.println("현재 윈도우: " + new String(chars, j + 1, M));
+//            System.out.println("현재 count: " + count[0] + " " + count[1] + " " + count[2] + " " + count[3]);
+//            System.out.println("현재 checkSecret: " + checkSecret);
 
+            if (checkSecret == 4) {
+                answer++;
+            }
         }
-        System.out.println(Result);
+        System.out.println(answer);
+
+    }
+
+    // 알파펫 들어오면 그거에 대한 A[]를 --하고, 값이 0이면 checkSecret ++
+    static private void remove(char c) {
+        switch (c) {
+            case 'A':
+                if (count[0] == A[0]) checkSecret--;
+                count[0]--;
+                break;
+
+            case 'C':
+                if (count[1] == A[1]) checkSecret--;
+                count[1]--;
+                break;
+
+            case 'G':
+                if (count[2] == A[2]) checkSecret--;
+                count[2]--;
+                break;
+
+            case 'T':
+                if (count[3] == A[3]) checkSecret--;
+                count[3]--;
+                break;
+        }
     }
 
     static private void add(char c) {
         switch (c) {
             case 'A':
                 count[0]++;
-                if (count[0] == checkArr[0]) {
-                    checkSecret++;
-                }
+                if (count[0] == A[0]) checkSecret++;
                 break;
+
             case 'C':
                 count[1]++;
-                if (count[1] == checkArr[1]) {
-                    checkSecret++;
-                }
+                if (count[1] == A[1]) checkSecret++;
                 break;
+
             case 'G':
                 count[2]++;
-                if (count[2] == checkArr[2]) {
-                    checkSecret++;
-                }
+                if (count[2] == A[2]) checkSecret++;
                 break;
+
             case 'T':
                 count[3]++;
-                if (count[3] == checkArr[3]) {
-                    checkSecret++;
-                }
-                break;
-        }
-    }
-
-    static private void remove(char c) {
-        switch (c) {
-            case 'A':
-                count[0]--;
-                if (count[0] == checkArr[0] - 1) {
-                    checkSecret--;
-                }
-                break;
-            case 'C':
-                count[1]--;
-                if (count[1] == checkArr[1] - 1) {
-                    checkSecret--;
-                }
-                break;
-            case 'G':
-                count[2]--;
-                if (count[2] == checkArr[2] - 1) {
-                    checkSecret--;
-                }
-                break;
-            case 'T':
-                count[3]--;
-                if (count[3] == checkArr[3] - 1) {
-                    checkSecret--;
-                }
+                if (count[3] == A[3]) checkSecret++;
                 break;
         }
     }
