@@ -1,0 +1,9 @@
+-- 코드를 입력하세요
+SELECT f.FLAVOR
+FROM FIRST_HALF f
+INNER JOIN JULY j
+ON j.FLAVOR = f.FLAVOR
+
+group by j.FLAVOR
+ORDER BY SUM(j.TOTAL_ORDER) + SUM(f.TOTAL_ORDER) desc
+Limit 3;
