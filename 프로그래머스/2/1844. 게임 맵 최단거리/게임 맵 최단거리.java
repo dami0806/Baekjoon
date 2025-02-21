@@ -1,46 +1,54 @@
 import java.util.*;
-
 class Solution {
-    static int []dx ={-1,0,1,0};
-    static int []dy ={0,-1,0,1};
+    static int[] dx = {-1,0,1,0};
+    static int[] dy = {0,-1,0,1};
     static boolean[][] visited;
-    static int N, M;
     static int[][] A;
-    static int[][] map;
-    static public int solution(int[][] maps) {
+    static int N;
+    static int M;
+    public int solution(int[][] maps) {
         int answer = 0;
+        // 최단거리? -> BFS
         N = maps.length;
         M = maps[0].length;
-        A = new int [N][M];
+        
         visited = new boolean[N][M];
+        A = new int[N][M];
         
         BFS(0,0,maps);
-       if (A[N-1][M-1] == 0) {return -1;}
-
-        return A[N-1][M-1]+1;        
+        return visited[N-1][M-1]? maps[N-1][M-1] : -1;
     }
-    static void BFS(int i, int j,int[][]maps) {
+    static int BFS(int i, int j, int maps[][]) {
         Queue<int[]> queue = new LinkedList<>();
-        // 초기값 넣기
+        //초기에는 바로 queue에 넣고 방문으로
         queue.offer(new int[]{i,j});
-        visited[i][j] = true;
+    
         
-        while(!(queue.isEmpty())) {
-            int now[] = queue.poll();
-            for(int k= 0 ;k<4; k++) {
+        //지금의 큐 빼고, 그 큐에 대한 숫자 삽입할건데 삽입 전 체크
+            //범위 안에서
+            // 1이고, 방문 안한거
+           while(!queue.isEmpty()) {
+              int now[] = queue.poll();
+               visited[i][j] = true;
+               // 도착지 도착 시 반환
+               if(now[0] == N-1 && now[1] == M-1) {
+                   return maps[now[0]][now[1]];
+               }
+               
+            for(int k = 0;k<4;k++){
+                
                 int x = now[0]+dx[k];
-                int y = now[1]+dy[k];
+                int y = now[1]+ dy[k];
                 
                 if(x>=0 && y>=0 && x<N && y<M) {
-                    if(!(visited[x][y]) && maps[x][y] == 1){
+                    if(maps[x][y] == 1 && !(visited[x][y])){
+                        maps[x][y] = maps[now[0]][now[1]]+1;
                         visited[x][y] = true;
-                        A[x][y] = A[now[0]][now[1]]+1;
-                     
-                        queue.offer(new int[]{x,y});
+                         queue.offer(new int[]{x,y});
                     } 
                 }
             }
+           }
+         return -1;
         }
-        
-    }
 }
