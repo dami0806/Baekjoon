@@ -25,52 +25,47 @@
 //System.out.println(var);		       				   // 문자열 1개 출력하는 예제
 //System.out.println(AB);		       				     // long 변수 1개 출력하는 예제
 /////////////////////////////////////////////////////////////////////////////////////////////
-import java.util.Scanner;
-import java.io.FileInputStream;
+import java.util.*;
+import java.io.*;
 
-/*
-   사용하는 클래스명이 Solution 이어야 하므로, 가급적 Solution.java 를 사용할 것을 권장합니다.
-   이러한 상황에서도 동일하게 java Solution 명령으로 프로그램을 수행해볼 수 있습니다.
- */
 class Solution
 {
+    static int dx[] = {0,1, 0,-1};
+    static int dy[] = {1,0,-1,0};
 	public static void main(String args[]) throws Exception
 	{
-		Scanner sc = new Scanner(System.in);
-		int T;
-		T=sc.nextInt();
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine());
 
-		for(int test_case = 1; test_case <= T; test_case++)
-		{
-            int N = sc.nextInt();
-			int dir = 0; 
+		for(int test_case = 1; test_case <= T; test_case++) {
+           int N = Integer.parseInt(br.readLine());
             int arr[][] = new int[N][N];
-            int []dx = {-1, 0 ,1 ,0};  // 위 오른쪽 아래 왼쪽
-			int []dy = {0, 1 ,0 ,-1};
-            int x = 0;
-            int y = 0;
-			for(int num = 1; num <= N*N; num++) {
-                arr[x][y] = num;
-                int curX = x+dx[dir];
-                int curY = y+dy[dir];
-                
-                // 경계 넘거나 이미 값 있으면 방향 전환
-                if(curX < 0 || curY < 0 || curX >= N || curY >= N || arr[curX][curY] !=0 ) {
-                    arr[x][y] = num;
-                    dir = (dir+1)%4;
-                	curX = x+dx[dir];
-                	curY = y+dy[dir];
-                }
-                x = curX;
-                y = curY;
-            }
+            int i =0;
+            int num = 1;
+           
+            int curx = 0;
+            int cury = 0;
+            arr[curx][cury] = num++;
             
-            System.out.println("#" + test_case);
-            for(int i = 0;i< N ; i++) {
-                for(int j = 0;j< N ; j++) {
-                	System.out.print(arr[i][j] + " ");
+           // for(int x = 1 ; x <N; x++) {
+            while(num<=N*N){
+                    int nx = curx + dx[i%4]; //dir = (dir + 1) % 4;
+                    int ny = cury + dy[i%4];
+                    
+                    if(nx<=N-1 && nx >= 0 && ny <=N-1 && ny>=0 && arr[nx][ny] == 0 ) {
+                        curx = nx;
+                        cury = ny;
+                        arr[curx][cury] = num++;
+                    } else {
+                   		i++;
+                    }
+            }
+            System.out.println("#" +test_case );
+            for(int x = 0 ; x <N; x++) {
+             	for(int y = 0 ; y <N; y++) {
+                    System.out.print(arr[x][y]+ " ");
                 }
-                System.out.println();
+                 System.out.println();
             }
 		}
 	}
