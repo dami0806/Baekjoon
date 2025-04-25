@@ -1,44 +1,39 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
+import java.io.*;
 
 /**
- 10 4200
- 1
+ N이 5일 경우,
+
+ 1 – 2 + 3 – 4 + 5 = 3
+
+ 2
  5
- 10
- 50
- 100
- 500
- 1000
- 5000
- 10000
- 50000
- 100000
- */
+ 6
+ **/
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String args[]) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        // 10 4200
         StringTokenizer st = new StringTokenizer(br.readLine());
+
         int N = Integer.parseInt(st.nextToken());
         int price = Integer.parseInt(st.nextToken());
+        int arr[] = new int[N];
 
-        int[] arr = new int[N];
-        for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(br.readLine());
+        for(int i = 0 ; i<N; i++){
+            arr[i] = Integer.parseInt(br.readLine().trim());
         }
+        int count =0;
 
-        int count = 0;
-        for (int i = N - 1; i >= 0; i--) {
-            if (arr[i] > price) {
-                continue;
+        for(int k = N-1 ; k>=0; k --){
+            if(arr[k]<=price) {
+                count += price/ arr[k];
+                price %= arr[k];
+               
             }
-            count += price / arr[i];
-            price = price % arr[i];
         }
-
+    
         System.out.println(count);
     }
 }
