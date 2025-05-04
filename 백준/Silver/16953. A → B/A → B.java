@@ -1,46 +1,44 @@
-
 import java.util.*;
 import java.io.*;
-public class Main
-{
-    // tip: arguments are passed via the field below this editor
-    // static boolean visited[] = new boolean[];
-    public static void main(String[] args) throws Exception
-    {
-        // 2 → 4 → 8 → 81 → 162
-        // [수행번수, 값]
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+public class Main {
+    static long count;
+    public static void main(String args[]) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // 2 162
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int start = Integer.parseInt(st.nextToken());
-        int goal = Integer.parseInt(st.nextToken());
-        int answer = BFS(start ,goal);
 
-        System.out.println(answer);
-
+        long start = Long.parseLong(st.nextToken());
+        long goal = Long.parseLong(st.nextToken());
+        count = 0;
+        bfs(1, start, goal);
+         System.out.println(count);
     }
-    static int BFS(int start, int goal) {
+    static void bfs(int depth, long start, long goal){
 
-        Queue<long[]> queue = new LinkedList<>();
-        queue.offer(new long[]{1,start}); // 1 2
+        Queue<long []> queue = new LinkedList<>();
+        queue.offer(new long[]{depth,start});
 
+        while(!queue.isEmpty()){
+            long now[] = queue.poll();
+          //  System.out.println(now[0]+ " "+now[1]);
 
-        while(!queue.isEmpty()) {
-            long []curNum = queue.poll();
-            int count = (int)curNum[0];
-            long num = curNum[1];
+            long two = now[1]*2;
+            long ten = now[1]*10+1;
 
-            if(num==goal) return count;
+            if (two == goal || ten ==goal) {
+                count = now[0]+1;
+              //  System.out.println(" 갯수: " + count);
+                return;
+            }
 
-            // 아직이면
-            long nextNum1 = num*10+1;
-            long nextNum2 = num*2;
-            int nextCount = count+1;
+                if (two <= goal) {
+                    queue.offer(new long[]{now[0]+1, two});
+                }
+                if (ten <= goal) {
+                    queue.offer(new long[]{now[0]+1, ten});
+                }
+            }
 
-            if(nextNum1 <= goal) queue.offer(new long[]{nextCount, nextNum1});
-            if(nextNum2 <= goal) queue.offer(new long[]{nextCount, nextNum2});
-
-
-        }
-        return -1;
+        count = -1;
     }
 }
