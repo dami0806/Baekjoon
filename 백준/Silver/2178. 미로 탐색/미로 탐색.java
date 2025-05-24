@@ -1,73 +1,69 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
+import java.io.*;
 
-/**
- * 4 6
- * 101111
- * 101010
- * 101011
- * 111011
- */
 public class Main {
+	static int[][] board;
+	static int n;
+	static int m;
+	static int dx[] = { 0, 1, 0, -1 };
+	static int dy[] = { 1, 0, -1, 0 };
 
-    static boolean[][] visited;
-    static int[][] A;
-    static int[] dx = {-1, 0, 1, 0};
-    static int[] dy = {0, 1, 0, -1};
+	public static void main(String[] args) throws Exception {
+		// 10 15
+		// 5 1 3 5 10 7 4 9 2 8
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		board = new int[n][m];
+		for (int i = 0; i < n; i++) {
+			String s = br.readLine().trim();
+			for (int j = 0; j < m; j++) {
+				board[i][j] = (s.charAt(j) - '0');
+			}
+		}
 
-    static int N;
-    static int M;
+		//showboard();
+		bfs(0,0);
+		System.out.println(board[n-1][m-1]);
+		// 최단거리 찾
 
-    public static void main(String[] args) throws IOException {
+	}
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine()); // 4 6
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
+	static void bfs(int start, int end) {
+		Queue<int[]> queue = new LinkedList<>();
+		queue.offer(new int[] { start, end });
 
-        A = new int[N][M];
-        visited = new boolean[N][M];
+		if (start == n && end == m) {
+			return;
+		}
+		while (!queue.isEmpty()) {
+			int now[] = queue.poll();
+			
+			for (int k = 0; k < 4; k++) {
+				int nx = now[0] + dx[k];
+				int ny = now[1] + dy[k];
 
-        for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine());
-            String line = st.nextToken(); // 101111
+				if (nx < 0 || ny < 0 || nx >= n || ny >= m ||board[nx][ny] == 0) 
+					continue;
+				if (board[nx][ny] == 1) {
+					queue.offer(new int[] { nx, ny });
+					board[nx][ny] = board[now[0]][now[1]] +1;
+					
+				}
+			}
 
-            for (int j = 0; j < M; j++) {
-                A[i][j] = Integer.parseInt(line.substring(j, j + 1));
-            }
-        }
+		}
 
-        BFS(0, 0);
+	}
 
-        System.out.println(A[N - 1][M - 1]);
-    }
+	static void showboard() {
 
-    static void BFS(int i, int j) { //x y
-        Queue<int[]> queue = new LinkedList<>();
-
-        queue.offer(new int[]{i, j});
-
-        while(!queue.isEmpty()) {
-            int []now = queue.poll();// 0,1
-            visited[i][j] = true;
-
-            // 상하좌우
-            for (int k = 0; k < 4; k++) {
-                int x = now[0] + dx[k];
-                int y = now[1] + dy[k];
-
-                if (x >= 0 && y >= 0 && x < N && y < M) { //범위 내에서
-                    if (!visited[x][y] && A[x][y] != 0) { // 방문 하지 않았고, 0이 아닌거
-                        // 이제 갈수 있다.
-                        visited[x][y] = true;
-                        A[x][y] = A[now[0]][now[1]] + 1;
-
-                        queue.offer(new int[]{x, y});
-                    }
-                }
-            }
-        }
-    }
+		for (int i = 0; i < n; i++) {
+			System.out.println();
+			for (int j = 0; j < m; j++) {
+				System.out.print(board[i][j] + " ");
+			}
+		}
+	}
 }
