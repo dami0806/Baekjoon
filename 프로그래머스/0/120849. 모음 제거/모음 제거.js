@@ -1,5 +1,4 @@
 function solution(my_string) {
     
-    return [...my_string].filter(c =>
-                                 !['a','e','i','o','u'].includes(c)).join("")
+    return my_string.replace(/[aeiou]/g, "");
 }
