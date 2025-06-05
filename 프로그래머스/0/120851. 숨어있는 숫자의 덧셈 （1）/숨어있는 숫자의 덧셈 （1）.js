@@ -1,8 +1,5 @@
 function solution(my_string) {
-    let answer = my_string.split("")
-            .filter(a=>!isNaN(a))
-            .map(a=> Number(a))
-            .reduce((sum,cur) => sum+cur,0);
-    
-    return answer;
+   
+    return my_string.replace(/[^0-9]/g,"").split("")
+                    .reduce((sum, cur) => sum+ Number(cur), 0);
 }
