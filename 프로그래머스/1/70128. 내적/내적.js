@@ -1,3 +1,3 @@
 function solution(a, b) {
-    return a.map((a,idx)=> a*b[idx]).reduce((acc,cur)=> acc+cur , 0);
+    return a.reduce((acc,cur,i)=> acc +=a[i] * b[i] , 0);
 }
