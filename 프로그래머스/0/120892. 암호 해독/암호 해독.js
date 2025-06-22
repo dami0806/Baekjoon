@@ -1,5 +1,8 @@
 function solution(cipher, code) {
-   return cipher.split("")
-                .filter((_,idx)=> (idx+1)%code === 0)
-                .join("")
+   let answer = [];
+    
+    for(let i = code-1 ; i<cipher.length; i+=code) {
+        answer.push(cipher[i]);
+    }
+    return answer.join("");
 }
