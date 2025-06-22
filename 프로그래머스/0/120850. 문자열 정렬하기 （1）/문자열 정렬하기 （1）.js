@@ -1,7 +1,3 @@
 function solution(my_string) {
-    let answer = [...my_string]
-    .filter(a => !isNaN(a))
-    .map(a=>Number(a))
-    .sort((a,b) =>a-b);
-    return answer;
+    return my_string.match(/[0-9]/g).sort((a,b) => a-b).map(Number);
 }
