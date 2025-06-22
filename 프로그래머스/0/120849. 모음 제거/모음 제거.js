@@ -1,4 +1,5 @@
 function solution(my_string) {
-    
-    return my_string.replace(/[aeiou]/g, "");
+    //모음제거: str.match(/정규표현식/플래그)
+    return (my_string.match(/[^aeiou]/g) || []).join("");
+
 }
