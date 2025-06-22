@@ -1,10 +1,7 @@
 function solution(n) {
-     var answer = 0;
-    //n sqrt했을때 1부터 그수 까지 나누어 떨어지면 추가
-    for(let i = 1; i<=Math.sqrt(n); i++){
-        if(n%i===0){
-            answer += (i=== (n/i)? 1:2)
-        }
+    let count =0;
+    for(let i = 0 ;i <= Math.floor(Math.sqrt(n)) ;i++){
+        if(n%i ==0){count++;}
     }
-    return answer
+    return Math.floor(Math.sqrt(n)) === Math.sqrt(n) ? count*2-1 : count*2;
 }
