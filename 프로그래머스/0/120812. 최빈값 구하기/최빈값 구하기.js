@@ -1,18 +1,23 @@
 function solution(array) {
     let map = new Map();
     
-    for(let i of array) {
-        map.set(i,(map.get(i)||0) +1);
-    }
-    // 가장 많이 나온 수
-    let maxCount = Math.max(...map.values());
-    
-    let a = [];
-    for(let [key, value] of map) {
-        if(maxCount === value) {
-            a.push(key);
+    array.forEach(a => {
+        map.set(a, (map.get(a)||0) +1);
+    });
+    let max = -Infinity;
+    let selectkey = 0;
+   
+    for(let [key,value] of map.entries()){
+
+        if(max < value) {
+            max = value;
+            selectkey = key;
+            count = 0;
+        } else if(max === value){
+            count++;
         }
     }
-    
-    return a.length>1? -1: a[0];
+    if(count > 0) return -1;
+        return selectkey;
+       
 }
