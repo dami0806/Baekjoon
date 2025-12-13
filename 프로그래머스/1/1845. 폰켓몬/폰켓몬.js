@@ -1,7 +1,9 @@
 function solution(nums) {
+    const set = new Set();
     
-    //최대가 nums.lenth를 넘지않는 한에서 종류
-    let set = new Set(nums);
-    
-    return [...set].length <= nums.length/2 ? [...set].length:nums.length/2 ;
+    for(num of nums){
+        set.add(num);
+    }
+ 
+    return Math.min(set.size,nums.length/2);
 }
