@@ -1,21 +1,17 @@
 function solution(k, tangerine) {
+    var map = new Map();
+    // { 1: 3개, 2: 2개, 3: 5개 }
 
-    let map = new Map();
-    
-    for(let i of tangerine){
-        map.set(i, (map.get(i)||0) +1);
+    for(let i = 0; i< tangerine.length ;i++) {
+        map.set(tangerine[i],(map.get(tangerine[i])||0)+1);
     }
-    let sorts = [...map.entries()].sort((a,b) => b[1]-a[1]);
+    const counts = [...map.values()].sort((a,b) => b-a)
+    let answer= 0;
     
-    let count = 0;
-    let kinds =0;
-    
-    for (let [kind, num] of sorts) {
-        count+=num;
-        kinds++;
-        if(count >= k) break;
+    for(let cnt of counts){
+        k-=cnt;
+        answer++;
+        if(k<=0) break;
     }
-  
-    
-    return kinds;
+    return answer;
 }
