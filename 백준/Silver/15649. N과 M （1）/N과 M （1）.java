@@ -1,39 +1,55 @@
 import java.util.*;
 import java.io.*;
 
-public class Main {
-    static int N;
-    static int M;
-    static boolean visited[];
-    static ArrayList<Integer> arr = new ArrayList<>();
+/**
+ * 
 
-    public static void main(String args[]) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+14502다시 풀기 
+15650번
 
-        N = Integer.parseInt(st.nextToken()); // 4 2
-        M= Integer.parseInt(st.nextToken());
+4 2
+4 4
 
-        visited = new boolean[N+1];
-        dfs(0);
-    }
-    static void dfs(int depth){
-        if(depth == M){
-            for(int i =0 ;i<depth; i++){
-                System.out.print(arr.get(i)+" ");
-            }
-            System.out.println();
-            return;
-        }
 
-        for(int i = 1 ; i<=N ;i++){
-            if(!visited[i]) {
-                arr.add(i);
-                visited[i] = true;
-                dfs(depth+1);
-                visited[i] = false;
-                arr.remove(arr.size()-1);
-            }
-        }
-    }
+ */
+public class Main{
+
+	static int N, M;
+	static int[]arr;
+	static StringBuilder sb = new StringBuilder();
+	static boolean[] visited;
+	
+	public static void main(String args[])throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		arr = new int[M];
+		visited = new boolean[N+1];
+		dfs(0);
+		System.out.println(sb.toString());
+	}
+	
+	
+	static void dfs(int count) {
+		if(count == M) {
+			for(int i = 0 ; i < M ;i++) {
+				sb.append(arr[i]).append(" ");
+			}
+			sb.append("\n");
+			return;
+		}
+		//도달 안했다면 
+		for(int i = 0; i<N; i++) {
+			if(!visited[i]) {
+				visited[i] = true;
+				arr[count] = i+1;
+				dfs(count+1);
+				visited[i] = false;
+			}
+		}
+	}
 }
+	
